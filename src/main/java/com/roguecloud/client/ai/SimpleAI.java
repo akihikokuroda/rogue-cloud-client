@@ -128,6 +128,8 @@ public class SimpleAI extends RemoteClient {
 		WorldState worldState = getWorldState();
 		
 		ICreature creatureToAttack = null;
+		ICreature self = selfState.getPlayer();
+		int myLevel = self.getLevel();
 		
 		// Default behaviour: Attack the first creature that I see.
 		for(ICreature c : visibleMonsters) {
@@ -135,7 +137,8 @@ public class SimpleAI extends RemoteClient {
 			int creatureLevel = c.getLevel();
 			
 			if(creatureToAttack == null) {
-				creatureToAttack = c;
+				if(myLevel > creatureLevel)
+					creatureToAttack = c;
 			}
 		}
 		
