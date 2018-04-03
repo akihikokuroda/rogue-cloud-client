@@ -108,7 +108,7 @@ public class SimpleAI extends RemoteClient {
 				
 			} else if(objectOnGround.getObjectType() == ObjectType.WEAPON) {
 				Weapon w = (Weapon)objectOnGround;
-				if(currentWeapon != null && currentWeapon.calculateWeaponRating() < w.calculateWeaponRating()				
+				if(currentWeapon != null && currentWeapon.calculateWeaponRating() < w.calculateWeaponRating())				
 					return visibleGroundObjectContainer;
 				
 			} else if(objectOnGround.getObjectType() == ObjectType.ITEM) {
