@@ -43,6 +43,7 @@ import com.roguecloud.creatures.ICreature;
 import com.roguecloud.events.CombatActionEvent;
 import com.roguecloud.events.IEvent.EventType;
 import com.roguecloud.items.Armour;
+import com.roguecloud.items.ArmourSet;
 import com.roguecloud.items.DrinkableItem;
 import com.roguecloud.items.IGroundObject;
 import com.roguecloud.items.IObject;
@@ -87,6 +88,9 @@ public class SimpleAI extends RemoteClient {
 
 		SelfState selfState = getSelfState();
 		WorldState worldState = getWorldState();
+		ICreature self = selfState.getPlayer();
+		Weapon currentWeapon = self.getWeapon();
+		ArmourSet currentArmours = self.getArmour();
 
 		// Look at all the objects the agent can see, and decide which, if any, they should go and pick up.
 		// Be careful, some objects might be guarded by monsters! 
@@ -98,13 +102,14 @@ public class SimpleAI extends RemoteClient {
 			
 			if(objectOnGround.getObjectType() == ObjectType.ARMOUR) {
 				Armour a = (Armour)objectOnGround;
-				
-				return visibleGroundObjectContainer;
+				Armour currentArmour = currentArmours.get(a.getType());
+				if (currentArmour != null && currentArmour.getDefense() < a.getDefense())
+				    return visibleGroundObjectContainer;
 				
 			} else if(objectOnGround.getObjectType() == ObjectType.WEAPON) {
 				Weapon w = (Weapon)objectOnGround;
-				
-				return visibleGroundObjectContainer;
+				if(currentWeapon != null && currentWeapon.calculateWeaponRating() < w.calculateWeaponRating()				
+					return visibleGroundObjectContainer;
 				
 			} else if(objectOnGround.getObjectType() == ObjectType.ITEM) {
 				DrinkableItem i = (DrinkableItem)objectOnGround;
